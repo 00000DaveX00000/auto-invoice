@@ -63,7 +63,20 @@ export interface VoucherEntry {
   币种: string
   汇率: number
   原币金额: number
-  员工姓名?: string
+  数量?: number | null
+  单价?: number | null
+  结算方式名称?: string | null
+  结算日期?: string | null
+  结算票号?: string | null
+  业务日期?: string | null
+  员工编号?: string | null
+  员工姓名?: string | null
+  往来单位编号?: string | null
+  往来单位名称?: string | null
+  货品编号?: string | null
+  货品名称?: string | null
+  部门名称?: string | null
+  项目名称?: string | null
 }
 
 export interface VoucherGenerateResponse {
