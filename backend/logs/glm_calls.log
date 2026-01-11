@@ -1,0 +1,10 @@
+2026-01-11 10:08:49 | INFO | GLM Service 初始化成功, API Key: 88f9d850...rbU1
+2026-01-11 10:09:40 | INFO | [GLM-0001] 开始识别 | 图片: ./uploads/5925e7a1-33e0-4b60-b056-b8d25891b2f8.png
+2026-01-11 10:09:40 | DEBUG | [GLM-0001] 图片大小: 6.9 KB
+2026-01-11 10:09:40 | DEBUG | [GLM-0001] 调用 GLM API | Model: glm-4v-plus
+2026-01-11 10:09:43 | INFO | [GLM-0001] Token 使用: prompt=2557, completion=117, total=2674
+2026-01-11 10:09:43 | INFO | [GLM-0001] 识别成功 | 耗时: 3.42s | 发票号: 12345678901234567890 | 金额: 85.0
+2026-01-11 10:09:43 | DEBUG | [GLM-0001] 完整结果: {"invoice_no": "12345678901234567890", "invoice_date": "2025-01-10", "invoice_type": "增值税普票", "seller_name": "北京京东世纪贸易有限公司", "seller_tax_no": null, "amount": 85.0, "tax_amount": 0.0, "total_amount": 85.0, "items": ["商品/服务名称列表"], "confidence": 0.9}
+2026-01-11 10:11:55 | INFO | GLM Service 初始化成功, API Key: 88f9d850...rbU1
+2026-01-11 10:16:17 | INFO | GLM Service 初始化成功, API Key: 88f9d850...rbU1
+2026-01-11 10:17:15 | INFO | GLM Service 初始化成功, API Key: 88f9d850...rbU1
