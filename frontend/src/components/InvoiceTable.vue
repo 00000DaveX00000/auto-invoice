@@ -64,10 +64,12 @@ const columns: TableColumnsType = [
   { title: '销方名称', dataIndex: 'seller_name', key: 'seller_name', width: 150, ellipsis: true },
   { title: '金额', dataIndex: 'amount', key: 'amount', width: 100, align: 'right' },
   { title: '税额', dataIndex: 'tax_amount', key: 'tax_amount', width: 80, align: 'right' },
-  { title: '合计', dataIndex: 'total_amount', key: 'total_amount', width: 100, align: 'right' },
+  { title: '价税合计', dataIndex: 'total_amount', key: 'total_amount', width: 100, align: 'right' },
   { title: '费用科目', dataIndex: 'expense_category', key: 'expense_category', width: 100 },
+  { title: '报销人', dataIndex: 'reimbursement_person', key: 'reimbursement_person', width: 80 },
   { title: '置信度', dataIndex: 'confidence', key: 'confidence', width: 120 },
   { title: '状态', dataIndex: 'anomaly_flag', key: 'status', width: 80 },
+  { title: '异常原因', dataIndex: 'anomaly_reason', key: 'anomaly_reason', width: 150, ellipsis: true },
   { title: '操作', key: 'action', width: 80, fixed: 'right' },
 ]
 

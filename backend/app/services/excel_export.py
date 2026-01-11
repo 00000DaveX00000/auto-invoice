@@ -25,83 +25,10 @@ def create_invoice_excel(
         bottom=Side(style="thin"),
     )
 
-    # Sheet 1: 发票明细表
+    # Sheet 1: 凭证导入模板 (放在第一个)
     ws1 = wb.active
-    ws1.title = "发票明细表"
+    ws1.title = "凭证导入模板"
     headers1 = [
-        "发票号",
-        "日期",
-        "类型",
-        "销方名称",
-        "金额",
-        "税额",
-        "价税合计",
-        "费用科目",
-        "报销人",
-        "置信度",
-        "状态",
-        "异常原因",
-    ]
-    ws1.append(headers1)
-    for cell in ws1[1]:
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.border = border
-
-    for inv in invoices:
-        status = "✓" if inv.anomaly_flag == "normal" else "⚠️"
-        ws1.append(
-            [
-                inv.invoice_no or "",
-                str(inv.invoice_date) if inv.invoice_date else "",
-                inv.invoice_type or "",
-                inv.seller_name or "",
-                inv.amount,
-                inv.tax_amount,
-                inv.total_amount,
-                inv.expense_category or "",
-                inv.reimbursement_person or "",
-                f"{inv.confidence:.0%}" if inv.confidence else "",
-                status,
-                inv.anomaly_reason or "",
-            ]
-        )
-
-    # Sheet 2: 汇总表
-    ws2 = wb.create_sheet("汇总表")
-    headers2 = ["费用科目", "发票数量", "合计金额", "合计税额"]
-    ws2.append(headers2)
-    for cell in ws2[1]:
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.border = border
-
-    for item in summary:
-        ws2.append([item.category, item.count, item.amount, item.tax_amount])
-
-    # Sheet 3: 异常清单
-    ws3 = wb.create_sheet("异常清单")
-    headers3 = ["发票号", "销方名称", "金额", "异常原因", "原图路径"]
-    ws3.append(headers3)
-    for cell in ws3[1]:
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.border = border
-
-    for inv in anomalies:
-        ws3.append(
-            [
-                inv.invoice_no or "",
-                inv.seller_name or "",
-                inv.total_amount,
-                inv.anomaly_reason or "",
-                inv.image_path or "",
-            ]
-        )
-
-    # Sheet 4: 凭证导入模板
-    ws4 = wb.create_sheet("凭证导入模板")
-    headers4 = [
         "编制日期",
         "凭证类型",
         "凭证序号",
@@ -132,15 +59,14 @@ def create_invoice_excel(
         "部门名称",
         "项目名称",
     ]
-    ws4.append(headers4)
-    for cell in ws4[1]:
+    ws1.append(headers1)
+    for cell in ws1[1]:
         cell.font = header_font
         cell.fill = header_fill
         cell.border = border
 
     for v in vouchers:
-        # 确保 None 值输出为空字符串
-        ws4.append(
+        ws1.append(
             [
                 v.编制日期 or "",
                 v.凭证类型 or "",
@@ -171,6 +97,79 @@ def create_invoice_excel(
                 v.货品名称 or "",
                 v.部门名称 or "",
                 v.项目名称 or "",
+            ]
+        )
+
+    # Sheet 2: 发票明细表
+    ws2 = wb.create_sheet("发票明细表")
+    headers2 = [
+        "发票号",
+        "日期",
+        "类型",
+        "销方名称",
+        "金额",
+        "税额",
+        "价税合计",
+        "费用科目",
+        "报销人",
+        "置信度",
+        "状态",
+        "异常原因",
+    ]
+    ws2.append(headers2)
+    for cell in ws2[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = border
+
+    for inv in invoices:
+        status = "✓" if inv.anomaly_flag == "normal" else "⚠️"
+        ws2.append(
+            [
+                inv.invoice_no or "",
+                str(inv.invoice_date) if inv.invoice_date else "",
+                inv.invoice_type or "",
+                inv.seller_name or "",
+                inv.amount,
+                inv.tax_amount,
+                inv.total_amount,
+                inv.expense_category or "",
+                inv.reimbursement_person or "",
+                f"{inv.confidence:.0%}" if inv.confidence else "",
+                status,
+                inv.anomaly_reason or "",
+            ]
+        )
+
+    # Sheet 3: 汇总表
+    ws3 = wb.create_sheet("汇总表")
+    headers3 = ["费用科目", "发票数量", "合计金额", "合计税额"]
+    ws3.append(headers3)
+    for cell in ws3[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = border
+
+    for item in summary:
+        ws3.append([item.category, item.count, item.amount, item.tax_amount])
+
+    # Sheet 4: 异常清单
+    ws4 = wb.create_sheet("异常清单")
+    headers4 = ["发票号", "销方名称", "金额", "异常原因", "原图路径"]
+    ws4.append(headers4)
+    for cell in ws4[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = border
+
+    for inv in anomalies:
+        ws4.append(
+            [
+                inv.invoice_no or "",
+                inv.seller_name or "",
+                inv.total_amount,
+                inv.anomaly_reason or "",
+                inv.image_path or "",
             ]
         )
 

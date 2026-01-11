@@ -70,6 +70,7 @@ export const invoiceApi = {
     voucher_date: string
     voucher_type?: string
     maker?: string
+    department?: string
   }): Promise<VoucherGenerateResponse> {
     const { data } = await api.post<VoucherGenerateResponse>('/invoices/vouchers/generate', params)
     return data

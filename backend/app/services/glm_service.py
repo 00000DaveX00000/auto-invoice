@@ -40,27 +40,33 @@ console_handler.setFormatter(logging.Formatter(
 glm_logger.addHandler(file_handler)
 glm_logger.addHandler(console_handler)
 
-INVOICE_PROMPT = """请识别这张发票图片，提取以下信息并以 JSON 格式返回：
+INVOICE_PROMPT = """请识别这张单据图片（可能是发票或费用报销单），提取以下信息并以 JSON 格式返回：
 {
-  "invoice_no": "发票号码",
-  "invoice_date": "开票日期 (YYYY-MM-DD格式)",
-  "invoice_type": "增值税专票/增值税普票/电子普票/其他",
-  "seller_name": "销方名称",
+  "doc_type": "发票/费用报销单/收据/其他",
+  "invoice_no": "发票号码或单据编号",
+  "invoice_date": "日期 (YYYY-MM-DD格式)",
+  "invoice_type": "增值税专票/增值税普票/电子普票/费用报销单/其他",
+  "seller_name": "销方名称或供应商",
   "seller_tax_no": "销方税号",
-  "amount": 金额(数字，不含税金额),
-  "tax_amount": 税额(数字),
-  "total_amount": 价税合计(数字),
-  "items": ["商品/服务名称列表"],
+  "amount": 金额(数字，不含税金额，如果没有税额则等于总金额),
+  "tax_amount": 税额(数字，如果没有则为0),
+  "total_amount": 价税合计或报销金额(数字),
+  "items": ["商品/服务名称或摘要内容"],
+  "reimbursement_person": "报销人/领款人/经手人姓名",
+  "department": "部门名称",
+  "expense_category": "费用类别(如固定资产、办公费、差旅费等)",
+  "attachments_count": 附单据张数(数字),
   "confidence": 置信度(0-1之间的小数，表示识别准确度)
 }
 
 注意事项：
 1. 如果某个字段无法识别，请设为 null
-2. 金额字段必须是纯数字，不要带单位符号
+2. 金额字段必须是纯数字，不要带单位符号（如 ¥29659.07 应返回 29659.07）
 3. 日期格式必须是 YYYY-MM-DD
 4. 只返回 JSON 对象，不要包含其他说明文字
-5. 发票号码通常是20位数字
-6. 税号通常是15-20位
+5. 费用报销单通常包含：日期、摘要、金额、附单据张数、领款人签章、经手人等
+6. 如果是费用报销单，seller_name 可以填写供应商或留空
+7. 注意识别手写内容
 """
 
 

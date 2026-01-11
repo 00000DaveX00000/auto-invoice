@@ -71,10 +71,15 @@ async def upload_invoices(
             # Parse date
             invoice_date = parse_date(result.get("invoice_date"))
 
-            # Classify expense
-            expense_category = classify_expense(
-                result.get("seller_name", ""), result.get("items", [])
-            )
+            # Get expense category from GLM or auto-classify
+            expense_category = result.get("expense_category")
+            if not expense_category:
+                expense_category = classify_expense(
+                    result.get("seller_name", ""), result.get("items", [])
+                )
+
+            # Get reimbursement person from GLM or use provided value
+            person = result.get("reimbursement_person") or reimbursement_person
 
             # Get amounts
             amount = float(result.get("amount") or 0)
@@ -91,14 +96,14 @@ async def upload_invoices(
             invoice = Invoice(
                 invoice_no=result.get("invoice_no"),
                 invoice_date=invoice_date,
-                invoice_type=result.get("invoice_type"),
+                invoice_type=result.get("invoice_type") or result.get("doc_type"),
                 seller_name=result.get("seller_name"),
                 seller_tax_no=result.get("seller_tax_no"),
                 amount=amount,
                 tax_amount=tax_amount,
                 total_amount=total_amount,
                 expense_category=expense_category,
-                reimbursement_person=reimbursement_person,
+                reimbursement_person=person,
                 confidence=confidence,
                 anomaly_flag=anomaly_flag,
                 anomaly_reason=anomaly_reason,
@@ -280,7 +285,7 @@ def generate_voucher_entries(request: VoucherGenerateRequest, db: Session = Depe
 
     invoice_responses = [InvoiceResponse.model_validate(i) for i in invoices]
     vouchers = generate_vouchers(
-        invoice_responses, request.voucher_date, request.voucher_type, request.maker
+        invoice_responses, request.voucher_date, request.voucher_type, request.maker, request.department
     )
 
     total_debit = sum(v.金额 for v in vouchers if v.借贷方向 == "借")

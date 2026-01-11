@@ -107,6 +107,7 @@ class VoucherGenerateRequest(BaseModel):
     voucher_date: str
     voucher_type: str = "转"
     maker: str = "系统"
+    department: str = ""
 
 
 class VoucherGenerateResponse(BaseModel):
