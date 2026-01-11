@@ -1,43 +1,44 @@
-# 敏感文件
-.env
-*.env
-glmkey.md
-
-# 数据库
-*.db
-*.sqlite
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
 .venv/
 venv/
+ENV/
+.env
 *.egg-info/
 dist/
 build/
 
-# Node.js
+# Node
 node_modules/
 dist/
-dist-ssr/
-*.local
-
-# 日志
-logs/
+.npm
 *.log
-npm-debug.log*
-
-# 上传文件
-uploads/
-
-# 系统文件
-.DS_Store
-Thumbs.db
 
 # IDE
 .idea/
-.vscode/*
-!.vscode/extensions.json
+.vscode/
 *.swp
 *.swo
+
+# Database
+*.db
+*.sqlite3
+
+# Uploads
+backend/uploads/
+uploads/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# UV
+.uv/

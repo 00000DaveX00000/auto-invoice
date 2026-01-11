@@ -78,8 +78,10 @@ async def upload_invoices(
                     result.get("seller_name", ""), result.get("items", [])
                 )
 
-            # Get reimbursement person from GLM or use provided value
-            person = result.get("reimbursement_person") or reimbursement_person
+            # Get reimbursement person from GLM (优先级: 经手人 > 领款人 > 传入参数)
+            handler = result.get("handler")  # 经手人
+            payee = result.get("payee")  # 领款人
+            person = handler or payee or result.get("reimbursement_person") or reimbursement_person
 
             # Get amounts
             amount = float(result.get("amount") or 0)
